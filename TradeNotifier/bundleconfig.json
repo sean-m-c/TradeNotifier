@@ -1,0 +1,32 @@
+[
+  {
+    "outputFileName": "wwwroot/css/vendor.min.css",
+    "inputFiles": [
+      "node_modules/mdbootstrap/css/bootstrap.min.css",
+      "node_modules/mdbootstrap/css/mdb.min.css",
+      "node_modules/mdbootstrap/css/style.min.css"
+    ],
+    "minify": {
+      "enabled": false,
+      "adjustRelativePaths": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/vendor.min.js",
+    "inputFiles": [
+      "node_modules/mdbootstrap/js/jquery-3.3.1.min.js",
+      "node_modules/mdbootstrap/js/popper.min.js",
+      "node_modules/mdbootstrap/js/bootstrap.min.js",
+      "node_modules/mdbootstrap/js/mdb.min.js"
+    ],
+    "minify": {
+      "enabled": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/css/site.css"
+    ]
+  }
+]

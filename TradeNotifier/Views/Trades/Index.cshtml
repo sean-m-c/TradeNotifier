@@ -1,0 +1,135 @@
+﻿@model IEnumerable<TradeNotifier.Models.BitMEXOrderBookItemDTO>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@functions {
+    public static string GetTradeTypeClass(BitMEXOrderBookItemDTO model) {
+        if (model == null) return "";
+        string ret = "";
+
+        if(model.OrdStatus == "Filled")
+        {
+            switch (model.Side)
+            {
+                case "Buy":
+                    ret = "table-success";
+                    break;
+                case "Sell":
+                    ret = "table-danger";
+                    break;
+            }
+        } else if(model.OrdStatus == "Rejected")
+        {
+            ret = "table-warning";
+        }
+
+        return ret;
+    }
+
+    public static decimal GetOpenContracts(IEnumerable<BitMEXOrderBookItemDTO> models)
+    {
+        decimal buys = models.Where(i => i.OrdStatus == "Filled" && i.Side == "Buy").Sum(i => i.OrderQty).Value;
+        decimal sells = models.Where(i => i.OrdStatus == "Filled" && i.Side == "Sell").Sum(i => i.OrderQty).Value;
+
+        return buys - sells;
+    }
+}
+
+
+@*@section Styles {
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+}*@
+
+<h2>Index</h2>
+
+<div>
+    Open contracts: @GetOpenContracts(Model)
+    Count:: @Model.Count();
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm datatable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Symbol)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TimeStamp)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AvgPx)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderQty)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StopPx)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrdStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrdType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Side)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Text)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(i => i.TimeStamp).ToList())
+            {
+            <tr class="@GetTradeTypeClass(item)">
+                <th scope="row">
+                    @Html.DisplayFor(modelItem => item.Symbol)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TimeStamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AvgPx)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StopPx)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrdType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Side)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@*@section Scripts {
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('.datatable').DataTable();
+        });
+    </script>
+}*@

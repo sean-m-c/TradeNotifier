@@ -1,18 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using TradeNotifier.Models;
+using TradeNotifier.Services;
 
 namespace TradeNotifier.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ITradesService _tradesService;
+
+        public HomeController(ITradesService tradesService)
+        {
+            _tradesService = tradesService ?? throw new ArgumentNullException(nameof(tradesService));
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var orders = _tradesService.GetOrders();
+            return View(orders);
         }
 
         public IActionResult About()

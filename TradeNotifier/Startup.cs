@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using TradeNotifier.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TradeNotifier.Services.BitMEX;
+using TradeNotifier.Services;
 
 namespace TradeNotifier
 {
@@ -39,6 +41,9 @@ namespace TradeNotifier
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddTransient<IBitMEXApi, BitMEXApi>();
+            services.AddTransient<ITradesService, TradesService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
