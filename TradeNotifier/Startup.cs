@@ -43,7 +43,10 @@ namespace TradeNotifier
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<IBitMEXApi, BitMEXApi>();
+            services.AddTransient<ICryptowatchApi, CryptowatchApi>();
+            services.AddTransient<ICryptowatchService, CryptowatchService>();
             services.AddTransient<ITradesService, TradesService>();
+            services.AddTransient<ICandleService, CandleService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

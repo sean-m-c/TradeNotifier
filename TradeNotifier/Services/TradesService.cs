@@ -24,7 +24,7 @@ namespace TradeNotifier.Services
 
         IEnumerable<BitMEXOrderBookItemDTO> ITradesService.GetOrders()
         {
-            return JsonConvert.DeserializeObject<List<BitMEXOrderBookItemDTO>>(_bitmexApi.GetOrders()); ;
+            return JsonConvert.DeserializeObject<List<BitMEXOrderBookItemDTO>>(_bitmexApi.GetOrders());
         }
     }
 

@@ -11,16 +11,25 @@ namespace TradeNotifier.Controllers
     public class TradesController : Controller
     {
         private readonly ITradesService _tradesService;
+        private readonly ICryptowatchService _cryptowatchService;
+        private readonly ICandleService _candleService;
 
-        public TradesController(ITradesService tradesService)
+        public TradesController(ITradesService tradesService, ICryptowatchService cryptowatchService, ICandleService candleService)
         {
             _tradesService = tradesService ?? throw new ArgumentNullException(nameof(tradesService));
+            _cryptowatchService = cryptowatchService ?? throw new ArgumentNullException(nameof(cryptowatchService));
+            _candleService = candleService ?? throw new ArgumentNullException(nameof(candleService));
         }
+
 
         // GET: Trades
         public ActionResult Index()
         {
             var orders = _tradesService.GetOrders();
+
+            var ohlcs = _cryptowatchService.GetOHLCs();
+            var candles = ohlcs.CalculateCandles();
+            var shortCBL = _candleService.CalculateShortCBL(candles.ToArray());
             return View(orders);
         }
 
