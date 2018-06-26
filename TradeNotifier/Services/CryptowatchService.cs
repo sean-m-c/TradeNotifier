@@ -16,9 +16,11 @@ namespace TradeNotifier.Services
             _cryptowatchApi = cryptowatchApi ?? throw new ArgumentNullException(nameof(cryptowatchApi));
         }
 
-        public CryptowatchOHLCListDTO GetOHLCs()
+        public CryptowatchOHLCListDTO GetOHLCs(IPeriod period)
         {
-            string ohlcData = _cryptowatchApi.GetOHLCs();
+            if (period == null) throw new ArgumentNullException(nameof(period));
+
+            string ohlcData = _cryptowatchApi.GetOHLCs(period);
 
             return JsonConvert.DeserializeObject<CryptowatchOHLCListDTO>(ohlcData);
         }

@@ -4,6 +4,6 @@ namespace TradeNotifier.Services
 {
     public interface ICryptowatchService
     {
-        CryptowatchOHLCListDTO GetOHLCs();
+        CryptowatchOHLCListDTO GetOHLCs(IPeriod period);
     }
 }

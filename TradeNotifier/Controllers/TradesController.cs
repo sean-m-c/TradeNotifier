@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TradeNotifier.Models;
 using TradeNotifier.Services;
 
 namespace TradeNotifier.Controllers
@@ -27,7 +28,7 @@ namespace TradeNotifier.Controllers
         {
             var orders = _tradesService.GetOrders();
 
-            var ohlcs = _cryptowatchService.GetOHLCs();
+            var ohlcs = _cryptowatchService.GetOHLCs(new PeriodFourHour());
             var candles = ohlcs.CalculateCandles();
             var shortCBL = _candleService.CalculateShortCBL(candles.ToArray());
             return View(orders);

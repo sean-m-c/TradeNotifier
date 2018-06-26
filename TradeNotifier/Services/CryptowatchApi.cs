@@ -12,9 +12,11 @@ namespace TradeNotifier.Services
     {
         const string _baseUrl = "https://api2.service.cryptowat.ch/markets/bitmex/btcusd-perpetual-futures/ohlc";
 
-        string ICryptowatchApi.GetOHLCs()
+        string ICryptowatchApi.GetOHLCs(IPeriod period)
         {
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(_baseUrl);
+            if (period == null) throw new ArgumentNullException(nameof(period));
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create($"_baseUrl?{period.ToDisplayFormat().ToLower()}");
             webRequest.Method = "GET";
 
             try
