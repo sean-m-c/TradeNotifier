@@ -1,9 +1,10 @@
-﻿using TradeNotifier.Models;
+﻿using System.Threading.Tasks;
+using TradeNotifier.Models;
 
 namespace TradeNotifier.Services
 {
     public interface ICryptowatchApi
     {
-        string GetOHLCs(IPeriod period);
+        Task<string> GetPeriodOHLCsAsync(IPeriod period);
     }
 }

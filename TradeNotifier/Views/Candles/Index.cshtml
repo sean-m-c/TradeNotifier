@@ -1,0 +1,86 @@
+﻿@model IEnumerable<TradeNotifier.Models.ICandle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+@section styles {
+<style>
+    table {
+        counter-reset: rowNumber;
+    }
+
+        table tbody tr {
+            counter-increment: rowNumber;
+        }
+
+            table tbody tr td:first-child::before {
+                content: counter(rowNumber);
+                min-width: 1em;
+                margin-right: 0.5em;
+                font-weight:bold;
+            }
+</style>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Period)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpenTimestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CloseTimestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Close)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.High)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Low)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Open)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {      <td>>
+            <tr>
+                    @item.
+                </td
+          
+                <td>
+                    @Html.DisplayFor(modelItem => item.Period.HumanizedName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpenTimestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CloseTimestamp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Close)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.High)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Low)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Open)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

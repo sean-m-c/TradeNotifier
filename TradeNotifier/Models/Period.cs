@@ -6,6 +6,7 @@ namespace TradeNotifier.Models
     {
         public TimeSpan PeriodTimeSpan { get; }
 
+
         public Period(TimeSpan timeSpan)
         {
             if (timeSpan == null) throw new ArgumentNullException(nameof(timeSpan));
@@ -14,28 +15,58 @@ namespace TradeNotifier.Models
             PeriodTimeSpan = timeSpan;
         }
 
-        public string ToDisplayFormat()
+        public int RoundedMinutes => (int)PeriodTimeSpan.TotalMinutes;
+
+        public int RoundedSeconds => (int)PeriodTimeSpan.TotalSeconds;
+
+        public string HumanizedName
         {
-            if (PeriodTimeSpan.Days >= 7)
+            get
             {
-                return $"{(PeriodTimeSpan.Days > 7 ? (PeriodTimeSpan.Days / 7).ToString() : string.Empty)}W";
-            }
-            else if (PeriodTimeSpan.Days > 1)
-            {
-                return $"{(PeriodTimeSpan.Days > 1 ? PeriodTimeSpan.Days.ToString() : string.Empty)}D";
-            }
-            else if (PeriodTimeSpan.Hours >= 1)
-            {
-                return $"{PeriodTimeSpan.Hours}h";
-            }
-            else if (PeriodTimeSpan.Minutes >= 1)
-            {
-                return $"{PeriodTimeSpan.Minutes}m";
-            }
-            else
-            {
-                return $"{PeriodTimeSpan.Seconds}";
+                if (_humanizedName == null)
+                {
+                    if (PeriodTimeSpan.Days >= 7)
+                    {
+                        _humanizedName = $"{(PeriodTimeSpan.Days > 7 ? (PeriodTimeSpan.Days / 7).ToString() : string.Empty)}W";
+                    }
+                    else if (PeriodTimeSpan.Days > 1)
+                    {
+                        _humanizedName = $"{(PeriodTimeSpan.Days > 1 ? PeriodTimeSpan.Days.ToString() : string.Empty)}D";
+                    }
+                    else if (PeriodTimeSpan.Hours >= 1)
+                    {
+                        _humanizedName = $"{PeriodTimeSpan.Hours}h";
+                    }
+                    else if (PeriodTimeSpan.Minutes >= 1)
+                    {
+                        _humanizedName = $"{PeriodTimeSpan.Minutes}m";
+                    }
+                    else
+                    {
+                        _humanizedName = $"{PeriodTimeSpan.Seconds}";
+                    }
+                }
+
+                return _humanizedName;
             }
         }
+        private string _humanizedName;
+
+
+    public DateTime NextClose() => DoCalculateNextCloseTime(DateTime.Now, this.PeriodTimeSpan);
+
+    public DateTime NextClose(DateTime? startTime)
+    {
+        return DoCalculateNextCloseTime(startTime, this.PeriodTimeSpan);
     }
+
+    DateTime DoCalculateNextCloseTime(DateTime? startTime, TimeSpan? timeSpan)
+    {
+        if (startTime == null) throw new ArgumentNullException(nameof(startTime));
+        if (timeSpan == null) throw new ArgumentNullException(nameof(timeSpan));
+
+        // Round up to next timespan interval.
+        return new DateTime((startTime.Value.Ticks + timeSpan.Value.Ticks - 1) / timeSpan.Value.Ticks * timeSpan.Value.Ticks, startTime.Value.Kind);
+    }
+}
 }

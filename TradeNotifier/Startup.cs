@@ -39,12 +39,14 @@ namespace TradeNotifier
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddLazyCache();
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<IBitMEXApi, BitMEXApi>();
             services.AddTransient<ICryptowatchApi, CryptowatchApi>();
-            services.AddTransient<ICryptowatchService, CryptowatchService>();
             services.AddTransient<ITradesService, TradesService>();
             services.AddTransient<ICandleService, CandleService>();
 
