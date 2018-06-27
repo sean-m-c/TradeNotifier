@@ -6,7 +6,6 @@ namespace TradeNotifier.Services
 {
     public interface ICandleService
     {
-        decimal CalculateShortCBL(ICandle[] candles);
         Task<List<ICandle>> GetCandlesAsync(IPeriod period);
     }
 }

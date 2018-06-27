@@ -71,47 +71,5 @@ namespace TradeNotifier.Services
 
             return candles;
         }
-
-        public decimal CalculateShortCBL(ICandle[] candles)
-        {
-            int? swingHighIndex = null;
-            decimal lastHigh = candles.Last().High;
-
-            // Get the last swing high
-            int index = candles.Length - 2;
-            ICandle currentCandle = null;
-            while (swingHighIndex == null)
-            {
-                currentCandle = candles[index];
-
-                if (index > -1 && currentCandle.High > lastHigh && candles[index - 1].High < currentCandle.High)
-                {
-                    swingHighIndex = index;
-                }
-                else
-                {
-                    index = index - 1;
-                }
-            }
-
-            _logger.LogDebug("Found swing high of {swingHigh} with low {low}", candles[swingHighIndex.Value].High, candles[swingHighIndex.Value].Low);
-
-            int precedingLowCount = 0;
-            int currentIndex = swingHighIndex.Value;
-            decimal? shortCBL = candles[swingHighIndex.Value].Low;
-            while (precedingLowCount < 3)
-            {
-                if (candles[currentIndex].Low < shortCBL)
-                {
-                    shortCBL = candles[currentIndex].Low;
-                    _logger.LogDebug("Found new low {shortCBL}", shortCBL);
-                    precedingLowCount = precedingLowCount + 1;
-                }
-
-                currentIndex = currentIndex - 1;
-            }
-
-            return shortCBL.Value;
-        }
     }
 }
