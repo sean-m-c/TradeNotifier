@@ -196,26 +196,6 @@ namespace TradeNotifier.Strategies
         }
 
 
-        decimal DoGetShortCBL(IEnumerable<ICandle> candles)
-        {
-            throw new NotImplementedException();
-        }
-
-        decimal DoGetLongCBL(IEnumerable<ICandle> candles)
-        {
-            throw new NotImplementedException();
-        }
-
-        decimal DoGetShortStop(IEnumerable<ICandle> candles)
-        {
-            throw new NotImplementedException();
-        }
-
-        decimal DoGetLongStop(IEnumerable<ICandle> candles)
-        {
-            throw new NotImplementedException();
-        }
-
         IEnumerable<ICandle> RefreshCandles(IPeriod period)
         {
             return _candleService.GetCandlesAsync(period).Result;

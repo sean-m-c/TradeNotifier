@@ -56,13 +56,24 @@ namespace TradeNotifier.Services
                     string[] values = ohlcItem.ToObject<string[]>();
                     // [ CloseTime, OpenPrice, HighPrice, LowPrice, ClosePrice, Volume ]
 
-                    DateTime closeTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(values[0])).LocalDateTime;
-                    decimal openPrice = decimal.Parse(values[1]);
-                    decimal highPrice = decimal.Parse(values[2]);
-                    decimal lowPrice = decimal.Parse(values[3]);
-                    decimal closePrice = decimal.Parse(values[4]);
+                    var ohlc = new Ohlc
+                    {
+                        High = decimal.Parse(values[2]),
+                        Low = decimal.Parse(values[3]),
+                        Open = decimal.Parse(values[1]),
+                        Close = decimal.Parse(values[4])
+                    };
 
-                    candles.Add(new Candle(closeTime, highPrice, lowPrice, openPrice, closePrice, period));
+                    if(ohlc.IsValid())
+                    {
+                        DateTime closeTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(values[0])).LocalDateTime;
+                        candles.Add(new Candle(closeTime, ohlc, period));
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Invalid OHLC with values [{ohlc.Dump()}].");
+                    }
+
                 }
                 catch (FormatException ex)
                 {

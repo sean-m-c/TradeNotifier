@@ -18,7 +18,7 @@ namespace TradeNotifier.Services
             // https://cryptowat.ch/docs/api#ohlc
             if (period == null) throw new ArgumentNullException(nameof(period));
 
-            string url = $"{_baseUrl}?period={period.RoundedSeconds}";
+            string url = $"{_baseUrl}?periods={period.RoundedSeconds}";
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
             webRequest.Method = "GET";
 

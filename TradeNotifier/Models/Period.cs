@@ -53,20 +53,35 @@ namespace TradeNotifier.Models
         private string _humanizedName;
 
 
-    public DateTime NextClose() => DoCalculateNextCloseTime(DateTime.Now, this.PeriodTimeSpan);
+        public DateTime NextClose() => DoCalculateNextCloseTime(DateTime.Now, this.PeriodTimeSpan);
 
-    public DateTime NextClose(DateTime? startTime)
-    {
-        return DoCalculateNextCloseTime(startTime, this.PeriodTimeSpan);
+        public DateTime NextClose(DateTime? startTime)
+        {
+            return DoCalculateNextCloseTime(startTime, this.PeriodTimeSpan);
+        }
+
+        DateTime DoCalculateNextCloseTime(DateTime? startTime, TimeSpan? timeSpan)
+        {
+            if (startTime == null) throw new ArgumentNullException(nameof(startTime));
+            if (timeSpan == null) throw new ArgumentNullException(nameof(timeSpan));
+
+            // Round up to next timespan interval.
+            return new DateTime((startTime.Value.Ticks + timeSpan.Value.Ticks - 1) / timeSpan.Value.Ticks * timeSpan.Value.Ticks, startTime.Value.Kind);
+        }
+
+        public static PeriodFourHour FourHour
+        {
+            get
+            {
+                if(_periodFourHour == null)
+                {
+                    _periodFourHour = new PeriodFourHour();
+                }
+
+                return _periodFourHour;
+            }
+
+        }
+        private static PeriodFourHour _periodFourHour;
     }
-
-    DateTime DoCalculateNextCloseTime(DateTime? startTime, TimeSpan? timeSpan)
-    {
-        if (startTime == null) throw new ArgumentNullException(nameof(startTime));
-        if (timeSpan == null) throw new ArgumentNullException(nameof(timeSpan));
-
-        // Round up to next timespan interval.
-        return new DateTime((startTime.Value.Ticks + timeSpan.Value.Ticks - 1) / timeSpan.Value.Ticks * timeSpan.Value.Ticks, startTime.Value.Kind);
-    }
-}
 }
