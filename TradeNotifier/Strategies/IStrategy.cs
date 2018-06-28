@@ -6,8 +6,9 @@ using TradeNotifier.Models;
 
 namespace TradeNotifier.Strategies
 {
-    public interface IStrategy
+    public interface IStrategy<TStrategyResult> where TStrategyResult : IStrategyResult
     {
         IStrategyResult GetStrategyResult(IPeriod period);
+        IStrategyResult GetStrategyResult(IEnumerable<ICandle> candles);
     }
 }

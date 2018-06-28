@@ -8,9 +8,11 @@ namespace TradeNotifier.Strategies
 {
     public interface IStrategyResult
     {
+        IEnumerable<ICandle> Candles { get; }
         bool IsLong { get; }
+        bool IsLongStop { get; }
         bool IsShort { get; }
-        bool IsStop { get; }
+        bool IsShortStop { get; }
         IPeriod Period { get; }
     }
 }

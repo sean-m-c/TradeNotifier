@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TradeNotifier.Services.BitMEX;
 using TradeNotifier.Services;
+using TradeNotifier.Strategies;
 
 namespace TradeNotifier
 {
@@ -49,6 +50,7 @@ namespace TradeNotifier
             services.AddTransient<ICryptowatchApi, CryptowatchApi>();
             services.AddTransient<ITradesService, TradesService>();
             services.AddTransient<ICandleService, CandleService>();
+            services.AddTransient<IStrategy<CountBackLineGuppyStrategyResult>, CountBackLineGuppyStrategy>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

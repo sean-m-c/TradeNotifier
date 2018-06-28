@@ -18,7 +18,9 @@ namespace TradeNotifier.Models
         public decimal Low { get; }
         public decimal Open { get; }
         public IPeriod Period { get; }
-
+        public decimal PercentChange => Close != 0 ? (1 - (((Open - Close) / Open)) * 100) : 0;
+        public decimal VolatilityPercent => Open != 0 ? (1 - (((High - Low) / Open)) * 100) : 0; // TODO: check this math
+        public decimal VolatilityPrice => (High - Low) * -1;
 
         public Candle(DateTime? closeTimestamp, decimal? high, decimal? low, decimal? open, decimal? close, IPeriod period)
         {

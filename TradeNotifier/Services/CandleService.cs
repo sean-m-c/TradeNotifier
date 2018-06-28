@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TradeNotifier.Extensions;
 using TradeNotifier.Models;
 
 namespace TradeNotifier.Services
@@ -65,7 +66,7 @@ namespace TradeNotifier.Services
                 }
                 catch (FormatException ex)
                 {
-                    _logger.LogError(ex, $"There was a problem converting the ohlcItem with values [{JsonConvert.SerializeObject(ohlcItem,Formatting.Indented)}].");
+                    _logger.LogError(ex, $"There was a problem converting the ohlcItem with values [{ohlcItem.Dump()}].");
                 }
             }
 

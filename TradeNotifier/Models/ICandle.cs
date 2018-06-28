@@ -13,6 +13,9 @@ namespace TradeNotifier.Models
         decimal High { get; }
         decimal Low { get; }
         decimal Open { get; }
+        decimal PercentChange { get; }
+        decimal VolatilityPercent { get; }
+        decimal VolatilityPrice { get; }
         IPeriod Period { get; }
     }
 }

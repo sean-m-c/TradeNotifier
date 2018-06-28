@@ -1,0 +1,120 @@
+﻿@model IEnumerable<TradeNotifier.Models.ICandle>
+
+@functions{
+    string GetTableRowClass(ICandle candle)
+    {
+        if (candle == null) return "";
+
+        if (candle.IsBearish)
+        {
+            return "table-danger";
+        }
+        else if (candle.IsBullish)
+        {
+            return "table-success";
+        }
+        else if (candle.IsOpen)
+        {
+            return "table-info";
+        }
+
+        return "";
+    }
+}
+
+
+@section styles {
+    <style>
+        table {
+            counter-reset: rowNumber;
+        }
+
+            table tbody tr {
+                counter-increment: rowNumber;
+            }
+
+                table tbody tr td:first-child::before {
+                    content: counter(rowNumber);
+                    min-width: 1em;
+                    margin-right: 0.5em;
+                    font-weight: bold;
+                }
+    </style>
+}
+
+    <p>
+        XBT @Model.First().Period.HumanizedName
+    </p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Period)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentChange)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolatilityPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolatilityPercent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OpenTimestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CloseTimestamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Open)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.High)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Low)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Close)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr class="@GetTableRowClass(item)">
+            <td>
+                @Html.DisplayFor(modelItem => item.Period.HumanizedName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.PercentChange)%
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.VolatilityPrice) XBT
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.VolatilityPercent)%
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpenTimestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CloseTimestamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Open)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.High)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Low)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Close)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

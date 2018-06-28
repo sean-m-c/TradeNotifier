@@ -1,0 +1,40 @@
+﻿@model TradeNotifier.Strategies.IStrategyResult
+
+@{
+    ViewData["Title"] = "GuppyCountBackLineStrategy";
+}
+
+<h2>GuppyCountBackLineStrategy</h2>
+
+<div>
+    <h4>IStrategyResult</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLong)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsLong)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsLongStop)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsLongStop)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsShort)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsShort)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsShortStop)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsShortStop)
+        </dd>
+    </dl>
+</div>
+
+@Html.Partial("_CandleTable", Model.Candles);
