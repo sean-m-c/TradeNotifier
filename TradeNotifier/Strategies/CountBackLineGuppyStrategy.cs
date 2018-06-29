@@ -113,9 +113,9 @@ namespace TradeNotifier.Strategies
             int i = 0;
             while (i < candles.Length && swingHighCandle == null && swingLowCandle == null && shortCBL == null && longCBL == null)
             {
-                previousCandle = i > 1 ? candles[i - 1] : null;
+                previousCandle = i > 0 ? candles[i - 1] : null;
                 currentCandle = candles[i];
-                nextCandle = candles[i + 1];
+                nextCandle = i < candles.Length - 1 ? candles[i + 1] : null;
 
                 if (!currentCandle.IsOpen)
                 {
